@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #root {
   width: 100vw;
   height: 100vh;
@@ -5,4 +9,19 @@
 
 body {
   margin: 0;
+}
+
+.text-neon-orange {
+  color: #ff6600;
+  text-shadow: 0 0 8px #ff6600, 0 0 16px #ff6600;
+}
+
+.bg-neon-orange {
+  background-color: #ff6600;
+  box-shadow: 0 0 8px #ff6600, 0 0 16px #ff6600;
+}
+
+.border-neon-orange {
+  border-color: #ff6600;
+  box-shadow: 0 0 8px #ff6600, 0 0 16px #ff6600;
 }

@@ -1,19 +1,161 @@
-import React from 'react';
-import { OrbitControls } from "@react-three/drei";
-import { Avatar } from './Avatar';
+import {
+  Float,
+  MeshDistortMaterial,
+  MeshWobbleMaterial,
+} from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
+import { animate, useMotionValue } from "framer-motion";
+import { motion } from "framer-motion-3d";
+import { useEffect, useRef } from "react";
+import { framerMotionConfig } from "../config";
+import { Avatar } from "./Avatar";
+import { Office } from "./Office";
 
-export const Experience = () => {
+import * as THREE from "three";
+
+export const Experience = (props) => {
+  const { menuOpened } = props;
+  const { viewport } = useThree();
+  const data = useScroll();
+
+  const cameraPositionX = useMotionValue();
+  const cameraLookAtX = useMotionValue();
+
+  useEffect(() => {
+    animate(cameraPositionX, menuOpened ? -5 : 0, {
+      ...framerMotionConfig,
+    });
+    animate(cameraLookAtX, menuOpened ? 5 : 0, {
+      ...framerMotionConfig,
+    });
+  }, [menuOpened]);
+
+  const characterContainerAboutRef = useRef();
+  useFrame((state) => {
+
+    const curSection = Math.floor(data.scroll.current * data.pages);
+    if (curSection > 3) {
+      curSection = 3;
+    }
+
+    if (curSection !== section) {
+      setSection(curSection);
+    }
+    state.camera.position.x = cameraPositionX.get();
+    state.camera.lookAt(cameraLookAtX.get(), 0, 0);
+
+    const position = new THREE.Vector3();
+    //characterContainerAboutRef.current.getWorldPosition(position);
+    //console.log([position.x, position.y, position.z]);
+
+
+  });
+
   return (
-    <React.Fragment>
-      <OrbitControls />
-      <group position-y={-1}>
-      <Avatar />
-      </group>
-      
+    <>
+    <motion.group
+      position = {[1.9072935059634513, 0.216, 2.681801948466054]}
+      rotation={[-3.141592653589793, 1.2053981633974482, 3.141592653589793]}
+      animate = {"" + section}
+      transition={{
+        duration: 0.6,
+      }}
+      variants={{
+        0: {
+          scaleX: 0.9,
+          scaleY: 0.9,
+          scaleZ: 0.9,
+        },
+        1: {
+          y: -viewport.height + 0.5,
+          x: 0,
+          z: 7,
+          rotateX: 0,
+          rotateY: 0,
+          rotateZ: 0,
+        },
+        2: {
+          x: -2,
+          y: -viewport.height * 2 + 0.5,
+          z: 0,
+          rotateX: 0,
+          rotateY: Math.PI / 2,
+          rotateZ: 0,
+        },
+        3: {
+          y: -viewport.height * 3 + 1,
+          x: 0.3,
+          z: 8.5,
+          rotateX: 0,
+          rotateY: -Math.PI / 4,
+          rotateZ: 0,
+        },
+      }}
+      >
+    <Avatar animation={section === 0 ? "Typing" : "Standing"} />
+
+    </motion.group>
       <ambientLight intensity={1} />
+      <motion.group
+        position={[1.5, 2, 3]}
+        scale={[0.9, 0.9, 0.9]}
+        rotation-y={-Math.PI / 4}
+        animate={{
+          y: section === 0 ? 0 : -1,
+        }}
+      >
+        <Office section={section} />
+        <group name="CharacterSpot" ref = {characterContainerAboutRef} position={[0.07, 0.24, -0.57]} rotation={[-Math.PI, 0.42, -Math.PI]}>
+            
+        </group>
+      </motion.group>
 
-
-
-    </React.Fragment>
+      {/* SKILLS */}
+      <motion.group
+        position={[0, -1.5, -10]}
+        animate={{
+          z: section === 1 ? 0 : -10,
+          y: section === 1 ? -viewport.height : -1.5,
+        }}
+      >
+        <directionalLight position={[-5, 3, 5]} intensity={0.4} />
+        <Float>
+          <mesh position={[1, -3, -15]} scale={[2, 2, 2]}>
+            <sphereGeometry />
+            <MeshDistortMaterial
+              opacity={0.8}
+              transparent
+              distort={0.4}
+              speed={4}
+              color={"red"}
+            />
+          </mesh>
+        </Float>
+        <Float>
+          <mesh scale={[3, 3, 3]} position={[3, 1, -18]}>
+            <sphereGeometry />
+            <MeshDistortMaterial
+              opacity={0.8}
+              transparent
+              distort={1}
+              speed={5}
+              color="yellow"
+            />
+          </mesh>
+        </Float>
+        <Float>
+          <mesh scale={[1.4, 1.4, 1.4]} position={[-3, -1, -11]}>
+            <boxGeometry />
+            <MeshWobbleMaterial
+              opacity={0.8}
+              transparent
+              factor={1}
+              speed={5}
+              color={"blue"}
+            />
+          </mesh>
+        </Float>
+      </motion.group>
+    </>
   );
 };
