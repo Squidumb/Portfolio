@@ -1,6 +1,7 @@
-import React from 'react';
 import { motion } from "framer-motion";
+import { useAtom } from "jotai";
 import Skills from './Skills';
+import { currentProjectAtom, projects } from "./Projects";
 
 
 const Section = (props) => {
@@ -31,20 +32,20 @@ const Section = (props) => {
   );
 };
 
-export const Interface = () => {
+export const Interface = (props) => {
+  const { setSection} = props;
   return (
     <div className="flex flex-col items-center w-screen">
-      <AboutSection />
+      <AboutSection setSection = {setSection} />
       <Skills />
-      <Section>
-        <h1>Projects</h1>
-      </Section>
+      <ProjectsSection />
       <ContactSection />
     </div>
   );
 };
 
-const AboutSection = () => {
+const AboutSection = (props) => {
+  const { setSection } = props;
   return (
     <Section>
       <h1 className="text-6xl font-extrabold leading-snug">
@@ -72,7 +73,8 @@ const AboutSection = () => {
         I am also learning how to build 3D apps
       </motion.p>
       <motion.button
-        className={`bg-indigo-600 text-white py-4 px-8 
+      onClick={() => setSection(3)}
+        className={`bg-pink-300 text-white py-4 px-8 
       rounded-lg font-bold text-lg mt-16`}
         initial={{
           opacity: 0,
@@ -93,6 +95,39 @@ const AboutSection = () => {
     </Section>
   );
 };
+
+const ProjectsSection = () => {
+  const [currentProject, setCurrentProject] = useAtom(currentProjectAtom);
+
+  const nextProject = () => {
+    setCurrentProject((currentProject + 1) % projects.length);
+  };
+
+  const previousProject = () => {
+    setCurrentProject((currentProject - 1 + projects.length) % projects.length);
+  };
+
+  return (
+    <Section>
+      <div className="flex w-full h-full gap-12 items-center justify-center mt-60">
+        <button
+          className="hover:text-indigo-600 transition-colors"
+          onClick={previousProject}
+        >
+          ← Previous
+        </button>
+        <h2 className="text-5xl font-bold">Projects</h2>
+        <button
+          className="hover:text-indigo-600 transition-colors"
+          onClick={nextProject}
+        >
+          Next →
+        </button>
+      </div>
+    </Section>
+  );
+};
+
 
 
 

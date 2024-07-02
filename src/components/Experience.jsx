@@ -2,14 +2,17 @@ import {
   Float,
   MeshDistortMaterial,
   MeshWobbleMaterial,
+  useScroll,
 } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { animate, useMotionValue } from "framer-motion";
 import { motion } from "framer-motion-3d";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { framerMotionConfig } from "../config";
 import { Avatar } from "./Avatar";
 import { Office } from "./Office";
+import { Projects } from "./Projects";
+import { Background } from "./Background";
 
 import * as THREE from "three";
 
@@ -17,6 +20,8 @@ export const Experience = (props) => {
   const { menuOpened } = props;
   const { viewport } = useThree();
   const data = useScroll();
+
+  const [section, setSection] = useState(0);
 
   const cameraPositionX = useMotionValue();
   const cameraLookAtX = useMotionValue();
@@ -31,13 +36,20 @@ export const Experience = (props) => {
   }, [menuOpened]);
 
   const characterContainerAboutRef = useRef();
+  const [characterAnimation, setCharacterAnimation] = useState("Typing");
+  useEffect(() => {
+    setCharacterAnimation("Falling");
+    setTimeout(() => {
+      setCharacterAnimation(section === 0 ? "Typing" : (section === 2 ? "Walking" : "Standing"));
+    }, 600);
+  }, [section]);
+
   useFrame((state) => {
 
-    const curSection = Math.floor(data.scroll.current * data.pages);
+    let curSection = Math.floor(data.scroll.current * data.pages);
     if (curSection > 3) {
       curSection = 3;
     }
-
     if (curSection !== section) {
       setSection(curSection);
     }
@@ -53,6 +65,7 @@ export const Experience = (props) => {
 
   return (
     <>
+    <Background />
     <motion.group
       position = {[1.9072935059634513, 0.216, 2.681801948466054]}
       rotation={[-3.141592653589793, 1.2053981633974482, 3.141592653589793]}
@@ -92,7 +105,7 @@ export const Experience = (props) => {
         },
       }}
       >
-    <Avatar animation={section === 0 ? "Typing" : "Standing"} />
+    <Avatar animation={characterAnimation} />
 
     </motion.group>
       <ambientLight intensity={1} />
@@ -112,7 +125,7 @@ export const Experience = (props) => {
 
       {/* SKILLS */}
       <motion.group
-        position={[0, -1.5, -10]}
+        position={[0, -3.5, -10]}
         animate={{
           z: section === 1 ? 0 : -10,
           y: section === 1 ? -viewport.height : -1.5,
@@ -156,6 +169,8 @@ export const Experience = (props) => {
           </mesh>
         </Float>
       </motion.group>
+      <Projects />
+      
     </>
   );
 };
