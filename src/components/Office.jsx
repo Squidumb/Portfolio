@@ -1,5 +1,5 @@
 
-import { useGLTF, useTexture } from "@react-three/drei";
+import { useGLTF, useTexture, useVideoTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { animate, useMotionValue } from "framer-motion";
 import { motion } from "framer-motion-3d";
@@ -11,6 +11,8 @@ export function Office(props) {
   const {section } = props;
   const { nodes, materials } = useGLTF('models/scene.gltf');
   const texture = useTexture('textures/baked.jpg');
+  const textureVSCode = useVideoTexture("textures/vscode.mp4")
+
   texture.flipY = false;
   texture.encoding = THREE.sRGBEncoding;
 
@@ -99,7 +101,7 @@ export function Office(props) {
         animate={{
           scale: section === 0 ? 1 : 0,
         }} name="iMac" position={[0.454, 0.939, -1.723]} rotation={[Math.PI, -1.099, Math.PI]}>
-      <mesh name="iMac_1" geometry={nodes.iMac_1.geometry} material={textureMaterial} />
+     {/*<mesh name="iMac_1" geometry={nodes.iMac_1.geometry} material={textureMaterial} />*/}
       <mesh name="iMac_1_1" geometry={nodes.iMac_1_1.geometry} material={textureMaterial} />
       <mesh name="iMac_1_2" geometry={nodes.iMac_1_2.geometry} material={textureMaterial} />
     </motion.group>
@@ -135,7 +137,8 @@ export function Office(props) {
       <mesh name="Node-Mesh" geometry={nodes['Node-Mesh'].geometry} material={textureMaterial} />
       <mesh name="Node-Mesh_1" geometry={nodes['Node-Mesh_1'].geometry} material={textureMaterial} />
     </motion.group>
-    <mesh name="Screen" geometry={nodes.Screen.geometry} material={textureMaterial} position={[0.454, 0.939, -1.723]} rotation={[Math.PI, -1.099, Math.PI]} />
+    <mesh name="Screen" geometry={nodes.Screen.geometry} position={[0.454, 0.939, -1.723]} rotation={[Math.PI, -1.099, Math.PI]} >
+      <meshBasicMaterial map={textureVSCode} toneMapped = {false}/> </mesh>
     <mesh name="Plane001" geometry={nodes.Plane001.geometry} material={textureMaterial} />
     <mesh name="Plane001_1" geometry={nodes.Plane001_1.geometry} material={textureMaterial} />
     <mesh name="Plane001_2" geometry={nodes.Plane001_2.geometry} material={textureMaterial} />
