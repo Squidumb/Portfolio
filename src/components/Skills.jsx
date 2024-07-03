@@ -36,7 +36,7 @@ const Skills = () => {
       >
         <div className="relative flex flex-col p-8 bg-[#001f3f] rounded-lg border-2 border-[#001f3f] text-white w-1/3">
           <div className="flex items-center space-x-4 absolute -top-12 left-1/2 transform -translate-x-1/2">
-            <img src={"assets/AvatarLogo.png"} className="w-30 h-30" />
+            <img src={"assets/AvatarLogo.png"} className="w-20 h-20" />
             <div>
               <h2 className="text-4xl font-bold text-[#8ecae6]">Akshita</h2>
               <p className="text-lg">Age: 21</p>
@@ -51,7 +51,7 @@ const Skills = () => {
           
           <div className="mt-8">
             <h3 className="text-2xl font-bold text-[#ffb703] mb-4">About</h3>
-            <p className="text-lg">At the age of 15, David first came in touch with UX Design and app development.</p>
+            <p className="text-lg">At the age of 15, Akshita first came in touch with Computer and the wonder a machine can do.</p>
           </div>
         </div>
         
