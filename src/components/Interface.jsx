@@ -68,9 +68,11 @@ const AboutSection = (props) => {
           delay: 1.5,
         }}
       >
-        I am a computer science engineer with lot of intrest in data science
+        I am a computer and data science engineer with a profound interest
+        <br/> 
+        in the diverse realms of artificial intelligence. I am also learning 
         <br />
-        I am also learning how to build 3D apps
+        how to build 3D apps and Render
       </motion.p>
       <motion.button
       onClick={() => setSection(3)}

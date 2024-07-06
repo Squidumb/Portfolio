@@ -46,7 +46,7 @@ const Skills = () => {
 
           <div className="mt-8 pt-8">
             <h3 className="text-2xl font-bold text-[#ffb703] mb-4">Experience</h3>
-            <p className="text-lg">Here you can add details about your experience...</p>
+            <p className="text-lg">Akshita is experienced in Python, Machine Learning, UI/UX, Data Science and Akshita has done hackathons and internships in all these feilds. </p>
           </div>
           
           <div className="mt-8">
