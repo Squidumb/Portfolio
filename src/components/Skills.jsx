@@ -7,7 +7,7 @@ const Section = (props) => {
 
   return (
     <motion.section
-      className="relative h-screen w-screen p-8 max-w-screen-2xl mx-auto flex flex-col items-start justify-center text-neon-orange"
+      className="relative h-screen w-screen p-8 max-w-screen-2xl mx-auto flex flex-col items-start justify-center"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0, transition: { duration: 1, delay: 0.6 } }}
       viewport={{ once: true }}
@@ -17,61 +17,121 @@ const Section = (props) => {
   );
 };
 
-const skills = [
-  { title: "Python", level: 60 },
-  { title: "Data Analysis", level: 70 },
-  { title: "Machine Learning", level: 80 },
-  { title: "HTML + CSS", level: 90 },
-  { title: "Problem Solving", level: 75 },
+const skillCategories = [
+  {
+    category: "AI & Machine Learning",
+    icon: "🤖",
+    color: "from-blue-500 to-purple-500",
+    skills: [
+      { name: "Deep Learning", level: 90, icon: "🧠" },
+      { name: "Natural Language Processing", level: 88, icon: "📝" },
+      { name: "Computer Vision", level: 85, icon: "👁️" },
+      { name: "LangGraph & Agentic AI", level: 92, icon: "🔄" }
+    ]
+  },
+  {
+    category: "Cloud & Infrastructure",
+    icon: "☁️",
+    color: "from-cyan-500 to-blue-500",
+    skills: [
+      { name: "Azure AI Services", level: 92, icon: "⚡" },
+      { name: "Docker & Containers", level: 85, icon: "🐳" },
+      { name: "CI/CD Pipelines", level: 80, icon: "⚙️" },
+      { name: "MLOps", level: 88, icon: "🔄" }
+    ]
+  },
+  {
+    category: "Development",
+    icon: "💻",
+    color: "from-green-500 to-emerald-500",
+    skills: [
+      { name: "Python", level: 95, icon: "🐍" },
+      { name: "React.js", level: 88, icon: "⚛️" },
+      { name: "Neo4j & Graph DBs", level: 85, icon: "🔋" },
+      { name: "REST APIs", level: 90, icon: "🔌" }
+    ]
+  }
 ];
+
+const SkillCard = ({ category, skills, icon, color }) => (
+  <motion.div
+    className={`bg-black/30 backdrop-blur-xl rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all`}
+    whileHover={{ y: -5 }}
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+  >
+    <div className="flex items-center gap-3 mb-6">
+      <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${color} flex items-center justify-center text-2xl`}>
+        {icon}
+      </div>
+      <h3 className="text-xl font-bold text-white">{category}</h3>
+    </div>
+    <div className="space-y-4">
+      {skills.map((skill, idx) => (
+        <motion.div
+          key={idx}
+          className="relative"
+          initial={{ opacity: 0, x: -10 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ delay: idx * 0.1 }}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">{skill.icon}</span>
+              <span className="text-white/90">{skill.name}</span>
+            </div>
+            <span className="text-white/60 text-sm">{skill.level}%</span>
+          </div>
+          <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+            <motion.div
+              className={`h-full bg-gradient-to-r ${color}`}
+              initial={{ width: 0 }}
+              whileInView={{ width: `${skill.level}%` }}
+              transition={{ duration: 1, delay: 0.2 + idx * 0.1 }}
+            />
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </motion.div>
+);
 
 const Skills = () => {
   return (
     <Section>
-      <motion.div 
-        initial="hidden" 
-        whileInView="visible" 
-        viewport={{ once: true }} 
-        className="relative flex flex-row w-full space-x-4"
-      >
-        <div className="relative flex flex-col p-8 bg-[#001f3f] rounded-lg border-2 border-[#001f3f] text-white w-1/3">
-          <div className="flex items-center space-x-4 absolute -top-12 left-1/2 transform -translate-x-1/2">
-            <img src={"assets/AvatarLogo.png"} className="w-20 h-20" />
-            <div>
-              <h2 className="text-4xl font-bold text-[#8ecae6]">Akshita</h2>
-              <p className="text-lg">Age: 21</p>
-              <p className="text-lg">From: India</p>
-            </div>
-          </div>
-
-          <div className="mt-8 pt-8">
-            <h3 className="text-2xl font-bold text-[#ffb703] mb-4">Experience</h3>
-            <p className="text-lg">Akshita is experienced in Python, Machine Learning, UI/UX, Data Science and Akshita has done hackathons and internships in all these feilds. </p>
-          </div>
-          
-          <div className="mt-8">
-            <h3 className="text-2xl font-bold text-[#ffb703] mb-4">About</h3>
-            <p className="text-lg">At the age of 15, Akshita first came in touch with Computer and the wonder a machine can do.</p>
-          </div>
-        </div>
+      <div className="w-full">
+        <motion.div
+          className="mb-12 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+            Skills & Expertise
+          </h2>
+          <p className="text-white/60 mt-4 max-w-2xl mx-auto">
+            Specialized in AI/ML development with extensive experience in building production-ready systems
+          </p>
+        </motion.div>
         
-        <div className="flex flex-col w-2/3 p-8 space-y-8">
-          <h3 className="text-2xl font-bold text-[#ffb703] mb-4">Skills</h3>
-          {skills.map((skill, index) => (
-            <div className="w-full mb-4" key={index}>
-              <h4 className="text-xl font-bold text-[#001f3f]">{skill.title}</h4>
-              <div className="h-2 w-1/4 bg-gray-200 rounded-full mt-2">
-                <motion.div
-                  className="h-2 w-full bg-[#ffb703] rounded-full mt-2"
-                  style={{ width: `${skill.level}%` }}
-                  initial={{ scaleX: 0, originX: 0 }}
-                  animate={{ scaleX: 0.5, transition: { duration: 1, delay: 1 + index * 0.2 } }}
-                />
-              </div>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+          {skillCategories.map((category, idx) => (
+            <SkillCard key={idx} {...category} />
           ))}
         </div>
-      </motion.div>
+        
+        <motion.div
+          className="mt-12 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <p className="text-white/40 text-sm">
+            And many more technologies in my toolkit...
+          </p>
+        </motion.div>
+      </div>
     </Section>
   );
 };
